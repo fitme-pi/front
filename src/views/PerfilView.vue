@@ -10,7 +10,7 @@
             <v-icon size="35" class="mr-4" name="usuario"
               >mdi-account-circle Nome_Usuário</v-icon
             >
-            <label for="usuario" class="cursor-pointer">Nome_Usuário</label>
+            <label for="usuario" class="cursor-pointer">{{ user.username }}</label>
           </v-list-item>
             <v-list-item @click="submitLogout">Sair</v-list-item>
         </v-list-item-group>
@@ -28,7 +28,7 @@
         <v-form>
           <v-container>
             <v-text-field
-              v-model="newUser.nome"
+              v-model="newUser.username"
               background-color="white"
               label="Nome"
               placeholder="Nome"
@@ -49,7 +49,7 @@
             >
           </v-text-field>
           <v-text-field
-          v-model="newUser.senha"
+          v-model="newUser.password"
           placeholder="Senha"
           background-color="white"
           label="Senha"
@@ -86,7 +86,7 @@
               offset-y
               min-width="auto"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <!-- <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="date"
                   label="Picker in menu"
@@ -99,7 +99,7 @@
                   rounded
                   dense
                 ></v-text-field>
-              </template>
+              </template> -->
               <v-date-picker
                 v-model="date"
                 no-title
@@ -133,7 +133,7 @@ export default {
     auth: true
   },
   computed: {
-    ...mapState('auth', ['usuario'])
+    ...mapState('auth', ['user'])
   },
   data() {
     return {
@@ -153,19 +153,19 @@ export default {
     },
     setInfoUser() {
       this.get()
-      console.log("No perfil: ", this.user.first_name)
-      this.newUser.nome = this.user.nome
-      this.newUser.senha = this.user.senha
+      console.log("No perfil: ", this.username)
+      this.newUser.username = this.user.username
+      this.newUser.password = this.user.password
       this.newUser.email = this.user.email
       this.newUser.sexo = this.user.sexo
     },
     compareInfo() {
-      return this.newUser.nome != this.user.nome || this.newUser.senha != this.user.senha || this.newUser.email != this.user.email || this.newUser.sexo != this.user.sexo
+      return this.newUser.username != this.user.username || this.newUser.password != this.user.password || this.newUser.email != this.user.email || this.newUser.sexo != this.user.sexo
     },
     async updateInfo() {
       if (this.compareInfo()) {
         try {
-          if (this.newUser.nome == this.user.nome) delete this.newUser.nome
+          if (this.newUser.username == this.user.username) delete this.newUser.username
           await this.update(this.newUser);
           await this.setInfoUser();
           this.salvar = true;

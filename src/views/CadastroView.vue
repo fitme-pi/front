@@ -22,23 +22,34 @@
               <v-form>
                 <v-text-field
                   outlined
+                  v-model="form.username"
+                  label="Apelido"
+                  placeholder="Apelido"
+                  :rules="rules"
+                ></v-text-field>
+                <v-text-field
+                  outlined
+                  v-model="form.first_name"
                   label="Nome"
                   placeholder="Nome"
                   :rules="rules"
                 ></v-text-field>
                 <v-text-field
                   outlined
+                  v-model="form.last_name"
                   label="Sobrenome"
                   placeholder="Sobrenome"
                 ></v-text-field>
                 <v-text-field
                   outlined
+                  v-model="form.email"
                   label="E-mail"
                   placeholder="usuario@gmail.com"
                   :rules="rules"
                 ></v-text-field>
                 <v-text-field
                   outlined
+                  v-model="form.password"
                   label="Senha"
                   placeholder="Senha"
                   :rules="rules"
@@ -51,7 +62,7 @@
                 <v-divider></v-divider>
                 <v-divider class="mb-8"></v-divider>
                 <v-btn
-                  @click="submitForm"
+                  @click="funcao"
                   class="mb-4"
                   dark
                   color="#4A3CA5"
@@ -75,7 +86,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -83,6 +94,10 @@ export default {
       show: false,
       form: {},
     };
+  },
+  computed: {
+    ...mapMutations("auth", ["unsetHeaders"]),
+    ...mapMutations("auth", ["setLogout"])
   },
   methods: {
     ...mapActions("auth", ["register"]),
@@ -93,6 +108,10 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    funcao() {
+      this.setLogout()
+      this.unsetHeaders()
     }
   },
 };

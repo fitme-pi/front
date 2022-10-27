@@ -10,7 +10,7 @@ export const auth = {
     }),
     mutations: {
         setToken(state, userToken) {
-          state.token = userToken.access_token;
+          state.token = userToken.access;
           state.loggedIn = true;
         },
         setLoginInfo(state, userForm) {
@@ -29,7 +29,7 @@ export const auth = {
           delete axios.defaults.headers.patch["Authorization"];
         },
         setLogout(state) {
-          Object.keys(state.user).forEach((key) => delete state.user[key]);
+          state.user = {}
           state.token = "";
           state.loggedIn = false;
         },
@@ -37,7 +37,6 @@ export const auth = {
       actions: {
         async get({ commit }) {
           const userForm = await authService.get();
-          console.log("Ao pegar: ", userForm.first_name);
           commit("setLoginInfo", userForm);
         },
         async register({ dispatch, commit }, userForm) {
@@ -45,7 +44,7 @@ export const auth = {
             const userToken = await authService.register(userForm);
             commit("setToken", userToken);
             commit("setHeaders");
-            dispatch("get");
+            dispatch("get", userForm);
             return Promise.resolve(userToken);
           } catch (e) {
             return Promise.reject(e);
@@ -56,7 +55,8 @@ export const auth = {
             const userToken = await authService.login(userForm);
             commit("setToken", userToken);
             commit("setHeaders");
-            dispatch("get");
+            console.log(userForm)
+            dispatch("get", userForm);
             return Promise.resolve(userToken);
           } catch (e) {
             commit("setLogout");
