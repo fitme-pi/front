@@ -20,7 +20,7 @@
     </v-app>
     <v-container>
       <v-col cols="12">
-        <h1 class="h1 d-flex justify-center">{{ newUser.first_name }}</h1>
+        <h1 class="h1 d-flex justify-center">{{ user.first_name }}</h1>
         <v-icon dark size="300" class="d-flex justify-center" name="usuario"
           >mdi-account-circle Nome_Usuário</v-icon
         >
@@ -30,7 +30,7 @@
         <v-form>
           <v-container>
             <v-text-field
-              v-model="newUser.username"
+              v-model="user.username"
               background-color="white"
               label="Nome"
               placeholder="Nome"
@@ -41,7 +41,7 @@
             >
             </v-text-field>
             <v-text-field
-              v-model="newUser.email"
+              v-model="user.email"
               background-color="white"
               label="E-mail"
               placeholder="usuario@gmail.com"
@@ -51,7 +51,7 @@
             >
             </v-text-field>
             <v-text-field
-              v-model="newUser.password"
+              v-model="user.password"
               placeholder="Senha"
               background-color="white"
               label="Senha"
@@ -65,7 +65,7 @@
             >
             </v-text-field>
             <v-text-field
-              v-model="newUser.sexo"
+              v-model="user.sexo"
               background-color="white"
               label="Sexo"
               placeholder="Sexo"

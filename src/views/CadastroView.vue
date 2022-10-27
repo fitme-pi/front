@@ -23,8 +23,8 @@
                 <v-text-field
                   outlined
                   v-model="form.username"
-                  label="Apelido"
-                  placeholder="Apelido"
+                  label="Nome de Usuário"
+                  placeholder="Nome de Usuário"
                   :rules="rules"
                 ></v-text-field>
                 <v-text-field
