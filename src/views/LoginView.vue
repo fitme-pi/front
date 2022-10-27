@@ -76,11 +76,13 @@
 </template>
 
 <script>
-import{ mapActions} from 'vuex'
+import axios from "axios";
+
+import { mapActions } from "vuex";
 
 export default {
   meta: {
-    auth: false
+    auth: false,
   },
   data() {
     return {
@@ -89,21 +91,25 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['login']),
-     async submitLogin() {
-      try{
-          await this.login(this.usuario);
-          this.$router.push({ path: '/perfil'})
-      } catch(e) {
-        this.errorLogin = true
+    ...mapActions("auth", ["login"]),
+    async submitLogin() {
+      try {
+        delete axios.defaults.headers.common["Authorization"];
+        delete axios.defaults.headers.get["Authorization"];
+        delete axios.defaults.headers.post["Authorization"];
+        delete axios.defaults.headers.patch["Authorization"];
+        await this.login(this.usuario);
+        this.$router.push({ path: "/perfil" });
+      } catch (e) {
+        this.errorLogin = true;
         console.log(e);
-    }
-  },
+      }
+    },
     criarConta() {
-    this.$router.push({ name: "CadastroView" });
-    }
+      this.$router.push({ name: "CadastroView" });
+    },
   },
-}
+};
 </script>
 
 <style>

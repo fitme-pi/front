@@ -35,8 +35,9 @@ export const auth = {
         },
       },
       actions: {
-        async get({ commit }) {
-          const userForm = await authService.get();
+        async get({ commit }, infoUser) {
+          console.log("No get: ", infoUser.username)
+          const userForm = await authService.get(infoUser);
           commit("setLoginInfo", userForm);
         },
         async register({ dispatch, commit }, userForm) {

@@ -62,7 +62,7 @@
                 <v-divider></v-divider>
                 <v-divider class="mb-8"></v-divider>
                 <v-btn
-                  @click="funcao"
+                  @click="submitForm"
                   class="mb-4"
                   dark
                   color="#4A3CA5"
@@ -86,9 +86,12 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import { mapActions, mapMutations } from "vuex";
 
 export default {
+  
   data() {
     return {
       show: false,
@@ -97,22 +100,24 @@ export default {
   },
   computed: {
     ...mapMutations("auth", ["unsetHeaders"]),
-    ...mapMutations("auth", ["setLogout"])
   },
   methods: {
     ...mapActions("auth", ["register"]),
     async submitForm() {
       try {
+        delete axios.defaults.headers.common["Authorization"];
+        delete axios.defaults.headers.get["Authorization"];
+        delete axios.defaults.headers.post["Authorization"];
+        delete axios.defaults.headers.patch["Authorization"];
         await this.register(this.form);
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "LoginView" });
       } catch (e) {
         console.log(e);
       }
     },
-    funcao() {
-      this.setLogout()
-      this.unsetHeaders()
-    }
+    voltarLogin() {
+      this.$router.push({ name: "LoginView" });
+    },
   },
 };
 </script>

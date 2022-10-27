@@ -10,15 +10,17 @@
             <v-icon size="35" class="mr-4" name="usuario"
               >mdi-account-circle Nome_Usuário</v-icon
             >
-            <label for="usuario" class="cursor-pointer">{{ user.username }}</label>
+            <label for="usuario" class="cursor-pointer">{{
+              user.username
+            }}</label>
           </v-list-item>
-            <v-list-item @click="submitLogout">Sair</v-list-item>
+          <v-list-item @click="submitLogout">Sair</v-list-item>
         </v-list-item-group>
       </v-app-bar>
     </v-app>
     <v-container>
       <v-col cols="12">
-        <h1 class="h1 d-flex justify-center">Nome do Usuário</h1>
+        <h1 class="h1 d-flex justify-center">{{ newUser.first_name }}</h1>
         <v-icon dark size="300" class="d-flex justify-center" name="usuario"
           >mdi-account-circle Nome_Usuário</v-icon
         >
@@ -39,54 +41,50 @@
             >
             </v-text-field>
             <v-text-field
-            v-model="newUser.email"
-            background-color="white"
-            label="E-mail"
-            placeholder="usuario@gmail.com"
-            filled
-            rounded
-            dense
+              v-model="newUser.email"
+              background-color="white"
+              label="E-mail"
+              placeholder="usuario@gmail.com"
+              filled
+              rounded
+              dense
             >
-          </v-text-field>
-          <v-text-field
-          v-model="newUser.password"
-          placeholder="Senha"
-          background-color="white"
-          label="Senha"
-          filled
-          rounded
-          dense
-          :rules="rules"
-          :type="show ? 'text' : 'password'"
-          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="show = !show"
-          >
-        </v-text-field>
-        <v-text-field
-          v-model="newUser.sexo"
-          background-color="white"
-          label="Sexo"
-          placeholder="Sexo"
-          filled
-          rounded
-          dense
-        >
-        </v-text-field>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <v-menu
-              ref="menu"
-              v-model="menu"
-              :close-on-content-click="false"
-              :return-value.sync="date"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
+            </v-text-field>
+            <v-text-field
+              v-model="newUser.password"
+              placeholder="Senha"
+              background-color="white"
+              label="Senha"
+              filled
+              rounded
+              dense
+              :rules="rules"
+              :type="show ? 'text' : 'password'"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show = !show"
             >
-              <!-- <template v-slot:activator="{ on, attrs }">
+            </v-text-field>
+            <v-text-field
+              v-model="newUser.sexo"
+              background-color="white"
+              label="Sexo"
+              placeholder="Sexo"
+              filled
+              rounded
+              dense
+            >
+            </v-text-field>
+            <v-col cols="12" sm="6" md="4">
+              <v-menu
+                ref="menu"
+                v-model="menu"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <!-- <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="date"
                   label="Picker in menu"
@@ -100,18 +98,16 @@
                   dense
                 ></v-text-field>
               </template> -->
-              <v-date-picker
-                v-model="date"
-                no-title
-                scrollable
-              >
-              </v-date-picker>
-            </v-menu>
-          </v-col>
-        <v-btn color="#083C89" dark width="100%" @click="updateInfo"> salvar alterações </v-btn>
-       </v-container>
-      </v-form>
-     </v-col>
+                <v-date-picker v-model="date" no-title scrollable>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+            <v-btn color="#083C89" dark width="100%" @click="updateInfo">
+              salvar alterações
+            </v-btn>
+          </v-container>
+        </v-form>
+      </v-col>
     </v-container>
     <v-col cols="8" class="ml-10">
       <v-row class="d-flex justify-center">
@@ -123,17 +119,17 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from "vuex";
 
 export default {
   created() {
-    this.setInfoUser()
+    this.setInfoUser();
   },
   meta: {
-    auth: true
+    auth: true,
   },
   computed: {
-    ...mapState('auth', ['user'])
+    ...mapState("auth", ["user"]),
   },
   data() {
     return {
@@ -142,7 +138,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['get', 'update', 'logout']),
+    ...mapActions("auth", ["get", "update", "logout"]),
     async submitLogout() {
       try {
         await this.logout();
@@ -152,29 +148,29 @@ export default {
       }
     },
     setInfoUser() {
-      this.get()
-      console.log("No perfil: ", this.username)
-      this.newUser.username = this.user.username
-      this.newUser.password = this.user.password
-      this.newUser.email = this.user.email
-      this.newUser.sexo = this.user.sexo
+      this.get();
+      this.newUser.username = this.user.username;
+      this.newUser.password = this.user.password;
+      this.newUser.email = this.user.email;
+      this.newUser.first_name = this.user.first_name;
     },
     compareInfo() {
-      return this.newUser.username != this.user.username || this.newUser.password != this.user.password || this.newUser.email != this.user.email || this.newUser.sexo != this.user.sexo
+      return (
+        this.newUser.username != this.user.username ||
+        this.newUser.password != this.user.password ||
+        this.newUser.email != this.user.email
+      );
     },
     async updateInfo() {
       if (this.compareInfo()) {
         try {
-          if (this.newUser.username == this.user.username) delete this.newUser.username
+          if (this.newUser.username == this.user.username)
+            delete this.newUser.username;
           await this.update(this.newUser);
           await this.setInfoUser();
-          this.salvar = true;
         } catch (e) {
-          this.errorUpdate = true;
           console.log(e);
         }
-      } else {
-        this.notChanged = true;
       }
     },
   },

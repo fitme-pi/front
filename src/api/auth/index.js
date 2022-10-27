@@ -1,19 +1,15 @@
 import axios from "axios"
-// import store from "@/store"
 
 class AuthService {
-  async get(usuario) {
-    // console.log(store.state.auth.user)
+  async get(infoUser) {
     let id = null
     const ids = await axios.get("usuarios/")
     ids.data.forEach(x => {
-      console.log(x.username)
-      console.log(usuario)
-      if (usuario == x.username) {
+      if (infoUser.username == x.username) {
         id = x.id
       }
     });
-    const { data } = await axios.get(`usuarios/${id}`);
+    const { data } = await axios.get(`usuarios/${id}/`);
     return data;
   }
   async register(user) {
