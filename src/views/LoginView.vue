@@ -20,6 +20,7 @@
                   label="Nome de Usuário"
                   placeholder="Nome"
                   v-model="usuario.username"
+                  @keyup.enter="submitLogin"
                 ></v-text-field>
                 <v-text-field
                   outlined
@@ -29,6 +30,7 @@
                   :type="show ? 'text' : 'password'"
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append="show = !show"
+                  @keyup.enter="submitLogin"
                 >
                 </v-text-field>
                 <v-btn
@@ -48,9 +50,9 @@
                 </v-row>
                 <v-row class="d-flex mt-4">
                   <v-divider width="auto" class="mt-3 ml-8"></v-divider>
-                  <v-text class="ml-2 mr-2 text--disabled" font-family="arial"
-                    >ou continue com</v-text
-                  >
+                  <section class="ml-2 mr-2 text--disabled" font-family="arial">
+                    ou continue com
+                  </section>
                   <v-divider width="auto" class="mt-3 mr-8"></v-divider>
                 </v-row>
                 <v-row
@@ -60,11 +62,11 @@
                   <v-icon x-large color="primary"> mdi-facebook </v-icon>
                   <v-icon x-large color="indigo"> mdi-linkedin </v-icon>
                 </v-row>
-                <v-text
-                  class="text--disabled cursor-pointer"
+                <v-btn
+                  class="text--disabled mt-5 cursor-pointer"
                   font-family="arial"
                   @click="criarConta"
-                  >Não tem uma conta? Crie aqui</v-text
+                  >Não tem uma conta? Crie aqui</v-btn
                 >
               </v-form>
             </v-col>
@@ -76,13 +78,11 @@
 </template>
 
 <script>
-import axios from "axios";
-
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
-  meta: {
-    auth: false,
+  created() {
+    this.unsetHeaders();
   },
   data() {
     return {
@@ -91,15 +91,13 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("auth", ["unsetHeaders"]),
     ...mapActions("auth", ["login"]),
+
     async submitLogin() {
       try {
-        delete axios.defaults.headers.common["Authorization"];
-        delete axios.defaults.headers.get["Authorization"];
-        delete axios.defaults.headers.post["Authorization"];
-        delete axios.defaults.headers.patch["Authorization"];
         await this.login(this.usuario);
-        this.$router.push({ path: "/perfil" });
+        this.$router.push({ path: "/home" });
       } catch (e) {
         this.errorLogin = true;
         console.log(e);
@@ -112,30 +110,4 @@ export default {
 };
 </script>
 
-<style>
-html {
-  overflow-y: hidden;
-}
-
-.login {
-  color: #4a3ca5;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-body::-webkit-scrollbar {
-  width: 5px;
-}
-
-body::-webkit-scrollbar-track {
-  background: rgb(163, 206, 209);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.473);
-  border-radius: 200px;
-  border: 1px solid rgb(163, 206, 209);
-}
-</style>
+<style></style>

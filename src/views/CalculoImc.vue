@@ -18,7 +18,7 @@
           </v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="3">
-          <v-text-field 
+          <v-text-field
             outlined
             cols="12"
             sm="6"
@@ -30,15 +30,8 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="3">
-          <v-text-field
-            outlined
-            dark
-            label="Metros"
-            for="metros"
-            type="number"
-          >
+          <v-text-field outlined dark label="Metros" for="metros" type="number">
           </v-text-field>
-          <el-skeleton :rows="5" />
         </v-col>
         <v-btn @click="calcular()" id="corzinha" style="color: gray">
           <h3>Calcular</h3>
@@ -87,8 +80,4 @@ export default {
 };
 </script>
 
-<style>
-#corzinha {
-  background-color: lightcyan;
-}
-</style>
+<style></style>

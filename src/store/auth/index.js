@@ -1,81 +1,90 @@
 import axios from "axios";
-import authService from '@/api/auth'
+import authService from "@/api/auth";
 
 export const auth = {
-    namespaced: true,
-    state: () => ({
-        loggedIn: false,
-        user: {},
-        token: "",
-    }),
-    mutations: {
-        setToken(state, userToken) {
-          state.token = userToken.access;
-          state.loggedIn = true;
-        },
-        setLoginInfo(state, userForm) {
-          state.user = userForm;
-        },
-        setHeaders(state) {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
-          axios.defaults.headers.get["Authorization"] = `Bearer ${state.token}`;
-          axios.defaults.headers.post["Authorization"] = `Bearer ${state.token}`;
-          axios.defaults.headers.patch["Authorization"] = `Bearer ${state.token}`;
-        },
-        unsetHeaders() {
-          delete axios.defaults.headers.common["Authorization"];
-          delete axios.defaults.headers.get["Authorization"];
-          delete axios.defaults.headers.post["Authorization"];
-          delete axios.defaults.headers.patch["Authorization"];
-        },
-        setLogout(state) {
-          state.user = {}
-          state.token = "";
-          state.loggedIn = false;
-        },
-      },
-      actions: {
-        async get({ commit }, infoUser) {
-          console.log("No get: ", infoUser.username)
-          const userForm = await authService.get(infoUser);
-          commit("setLoginInfo", userForm);
-        },
-        async register({ dispatch, commit }, userForm) {
-          try {
-            const userToken = await authService.register(userForm);
-            commit("setToken", userToken);
-            commit("setHeaders");
-            dispatch("get", userForm);
-            return Promise.resolve(userToken);
-          } catch (e) {
-            return Promise.reject(e);
-          }
-        },
-        async login({ dispatch, commit }, userForm) {
-          try {
-            const userToken = await authService.login(userForm);
-            commit("setToken", userToken);
-            commit("setHeaders");
-            console.log(userForm)
-            dispatch("get", userForm);
-            return Promise.resolve(userToken);
-          } catch (e) {
-            commit("setLogout");
-            return Promise.reject(e);
-          }
-        },
-        async logout({ commit }) {
-          await authService.logout();
-          commit("unsetHeaders");
-          commit("setLogout");
-        },
-        async update({ dispatch }, newUser) {
-          try {
-            await authService.update(newUser);
-            dispatch("get");
-          } catch (e) {
-            return Promise.reject(e);
-          }
-        },
-    }
-}
+  namespaced: true,
+  state: () => ({
+    loggedIn: false,
+    user: null,
+    token: null,
+  }),
+  mutations: {
+    setToken(state, userToken) {
+      state.token = userToken.access;
+      state.loggedIn = true;
+    },
+    setLoginInfo(state, userForm) {
+      state.user = userForm;
+    },
+    setHeaders(state) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
+    },
+    unsetHeaders() {
+      delete axios.defaults.headers.common["Authorization"];
+    },
+    setLogout(state) {
+      state.user = null;
+      state.token = null;
+      state.loggedIn = false;
+      location.reload();
+    },
+  },
+  actions: {
+    async login({ dispatch, commit }, userForm) {
+      try {
+        const userToken = await authService.login(userForm);
+        commit("setToken", userToken);
+        commit("setHeaders");
+        dispatch("getUser");
+        return Promise.resolve(userToken);
+      } catch (e) {
+        commit("setLogout");
+        return Promise.reject(e);
+      }
+    },
+    async register({ dispatch }, userForm) {
+      try {
+        await authService.register(userForm);
+        await dispatch("login", userForm);
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    async getUser({ commit }) {
+      const userForm = await authService.get();
+      commit("setLoginInfo", userForm);
+    },
+    async updateUser({ dispatch }, newUser) {
+      try {
+        await authService.update(newUser);
+        await dispatch("getUser");
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    async updateUserUsername({ dispatch }, newUsername) {
+      try {
+        await authService.updateUsername(newUsername);
+        await dispatch("getUser");
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    async updateUserPassword({ commit }, newPassword) {
+      try {
+        await authService.updatePassword(newPassword);
+        commit("setLogout");
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+    async deleteUser({ commit }, delUser) {
+      try {
+        await authService.deleteUserAccount(delUser);
+        commit("setLogout");
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    },
+  },
+};

@@ -1,68 +1,77 @@
-import store from '@/store'
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import store from "@/store";
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+import CadastroView from "@/views/CadastroView.vue";
+import LoginView from "@/views/LoginView.vue";
+import HomeView from "@/views/HomeView.vue";
+import PerfilView from "@/views/PerfilView.vue";
+
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    component: () => import('@/layouts/BlankView'),
+    path: "/",
+    component: () => import("@/layouts/BlankView.vue"),
+    meta: {
+      auth: false,
+    },
     children: [
       {
-      path: '/',
-      name: 'LoginView',
-      component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue')
+        path: "",
+        name: "LoginView",
+        component: LoginView,
       },
       {
-        path: '/cadastro',
-        name: 'CadastroView',
-        component: () => import(/* webpackChunkName: "cadastro" */ '../views/CadastroView.vue')
+        path: "/cadastro",
+        name: "CadastroView",
+        component: CadastroView,
       },
-      {
-        path: '/perfil',
-        name: 'PerfilView',
-        component: () => import(/* webpackChunkName: "perfil" */ '../views/PerfilView.vue')
-      },
-    ]
+    ],
   },
   {
-    path: '/',
-    component: () => import('@/layouts/DefaultView'),
+    path: "/",
+    component: () => import("@/layouts/DefaultView.vue"),
+    meta: {
+      auth: true,
+    },
     children: [
       {
-        path: '/home',
-        name: 'HomeView',
-        component: HomeView
+        path: "/home",
+        name: "HomeView",
+        component: HomeView,
       },
       {
-        path: '/imc',
-        name: 'CalculoImc',
-        component: () => import(/* webpackChunkName: "imc" */ '../views/CalculoImc.vue')
+        path: "/perfil",
+        name: "PerfilView",
+        component: PerfilView,
       },
-    ]
-  }
-]
+      {
+        path: "/imc",
+        name: "CalculoImc",
+        component: () => import("@/views/CalculoImc.vue"),
+      },
+    ],
+  },
+];
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.auth)) {
-    if(!store.state.auth.loggedIn) {
+    if (!store.state.auth.loggedIn) {
       next({
-        path: '/'
-      })
-    } else{
+        path: "/",
+      });
+    } else {
       next();
     }
-  } else{
+  } else {
     next();
   }
-}
-)
+});
 
-export default router
+export default router;

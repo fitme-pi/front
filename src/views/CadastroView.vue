@@ -25,14 +25,12 @@
                   v-model="form.username"
                   label="Nome de Usuário"
                   placeholder="Nome de Usuário"
-                  :rules="rules"
                 ></v-text-field>
                 <v-text-field
                   outlined
                   v-model="form.first_name"
                   label="Nome"
                   placeholder="Nome"
-                  :rules="rules"
                 ></v-text-field>
                 <v-text-field
                   outlined
@@ -45,14 +43,12 @@
                   v-model="form.email"
                   label="E-mail"
                   placeholder="usuario@gmail.com"
-                  :rules="rules"
                 ></v-text-field>
                 <v-text-field
                   outlined
                   v-model="form.password"
                   label="Senha"
                   placeholder="Senha"
-                  :rules="rules"
                   :type="show ? 'text' : 'password'"
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append="show = !show"
@@ -70,11 +66,11 @@
                   height="50px"
                   >Cadastrar</v-btn
                 >
-                <v-text
+                <v-btn
                   class="text--disabled cursor-pointer"
                   font-family="arial"
                   @click="voltarLogin"
-                  >Voltar para o login</v-text
+                  >Voltar para o login</v-btn
                 >
               </v-form>
             </v-col>
@@ -86,66 +82,36 @@
 </template>
 
 <script>
-import axios from "axios";
-
 import { mapActions, mapMutations } from "vuex";
 
 export default {
-  
+  created() {
+    this.unsetHeaders();
+  },
   data() {
     return {
       show: false,
       form: {},
     };
   },
-  computed: {
-    ...mapMutations("auth", ["unsetHeaders"]),
-  },
+  computed: {},
   methods: {
+    ...mapMutations("auth", ["unsetHeaders"]),
     ...mapActions("auth", ["register"]),
+
     async submitForm() {
       try {
-        delete axios.defaults.headers.common["Authorization"];
-        delete axios.defaults.headers.get["Authorization"];
-        delete axios.defaults.headers.post["Authorization"];
-        delete axios.defaults.headers.patch["Authorization"];
         await this.register(this.form);
-        this.$router.push({ name: "LoginView" });
+        this.$router.push({ path: "/home" });
       } catch (e) {
         console.log(e);
       }
     },
     voltarLogin() {
-      this.$router.push({ name: "LoginView" });
+      this.$router.push({ path: "/" });
     },
   },
 };
 </script>
 
-<style>
-html {
-  overflow-y: hidden;
-}
-
-.login {
-  color: #4a3ca5;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-body::-webkit-scrollbar {
-  width: 5px;
-}
-
-body::-webkit-scrollbar-track {
-  background: rgb(163, 206, 209);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.473);
-  border-radius: 200px;
-  border: 1px solid rgb(163, 206, 209);
-}
-</style>
+<style></style>
