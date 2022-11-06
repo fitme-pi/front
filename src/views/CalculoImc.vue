@@ -1,5 +1,29 @@
 <template>
   <v-container class="pa-8" fluid>
+    <v-app-bar app color="#0C0B30" dark elevation="3">
+      <v-list-item>
+        <h1>Fitme</h1>
+      </v-list-item>
+      <v-list-item-group v-if="loggedIn" class="menu d-flex">
+        <v-list-item link :to="{ path: '/' }">
+          <label for="usuario" class="cursor-pointer">Home</label>
+        </v-list-item>
+        <v-divider vertical></v-divider>
+        <v-list-item link :to="{ path: '/imc' }">
+          <label for="usuario" class="cursor-pointer text-center"
+            >Calcular IMC</label
+          >
+        </v-list-item>
+        <v-divider vertical></v-divider>
+        <v-list-item link :to="{ path: '/perfil' }">
+          <v-icon size="35" class="mr-4" name="usuario"
+            >mdi-account-circle</v-icon
+          >
+          <label for="usuario">{{ user ? user.first_name : "Perfil" }}</label>
+        </v-list-item>
+        <v-list-item @click="setLogout">Sair</v-list-item>
+      </v-list-item-group>
+    </v-app-bar>
     <h1 class="h1 pa-8" style="color: white">Calculadora de IMC</h1>
     <v-form id="formulario">
       <!-- <v-row> -->
@@ -45,13 +69,20 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   data() {
     return {
       imc: "",
     };
   },
+  computed: {
+    ...mapState("auth", ["loggedIn", "user"]),
+  },
   methods: {
+    ...mapMutations("auth", ["setLogout"]),
+
     calcular() {
       var formulario = document.getElementById("formulario");
       var kilos = +formulario.kilos.value;

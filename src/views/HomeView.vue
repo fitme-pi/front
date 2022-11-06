@@ -27,11 +27,7 @@ export default {
   data() {
     return {
       novaTarefa: "",
-      tarefas: [
-        { titulo: "Tarefa 1" },
-        { titulo: "Tarefa 2" },
-        { titulo: "Tarefa 3" },
-      ],
+      tarefas: [],
     };
   },
   methods: {

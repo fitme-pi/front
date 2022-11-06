@@ -1,6 +1,5 @@
 <template>
-  <v-container class="d-flex" fluid>
-    <!-- <v-app>
+  <!-- <v-app>
       <v-app-bar app color="#0C0B30" class="cabecalho" dark elevation="3">
         <v-list-item>
           <h1>Fitme</h1>
@@ -18,88 +17,81 @@
         </v-list-item-group>
       </v-app-bar>
     </v-app> -->
-    <v-container>
-      <v-col cols="12">
-        <h1 class="h1 d-flex justify-center">{{ user.username }}</h1>
-        <v-icon dark size="300" class="d-flex justify-center" name="usuario"
-          >mdi-account-circle</v-icon
-        >
-        <v-divider dark></v-divider>
-        <v-divider dark></v-divider>
-        <v-divider dark class="mb-5"></v-divider>
-        <v-form>
-          <v-container>
-            <v-text-field
-              v-model="newUser.first_name"
-              background-color="white"
-              label="Nome"
-              placeholder="Nome"
-              filled
-              rounded
-              dense
-              width="50%"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model="newUser.last_name"
-              background-color="white"
-              label="Sobrenome"
-              placeholder="Sobrenome"
-              filled
-              rounded
-              dense
-              width="50%"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model="newUser.email"
-              background-color="white"
-              label="E-mail"
-              placeholder="usuario@gmail.com"
-              filled
-              rounded
-              dense
-            >
-            </v-text-field>
-            <v-btn color="#133F86" dark width="100%" @click="updateInfo">
-              salvar alterações
-            </v-btn>
-            <v-btn
-              class="mt-10"
-              color="#133F86"
-              dark
-              width="100%"
-              @click="dialogUsername = true"
-            >
-              Trocar de usuário
-            </v-btn>
-            <v-btn
-              class="mt-3"
-              color="#133F86"
-              dark
-              width="100%"
-              @click="dialogPassword = true"
-            >
-              Redefirnir senha
-            </v-btn>
-            <v-btn
-              class="mt-3"
-              color="#133F86"
-              dark
-              width="100%"
-              @click="dialogDelUser = true"
-            >
-              Deletar conta
-            </v-btn>
-          </v-container>
-        </v-form>
-      </v-col>
-    </v-container>
-    <v-col cols="8" class="ml-10">
-      <v-row class="d-flex justify-center">
-        <h1 class="h1">Progresso Semanal</h1>
-      </v-row>
-      <v-img src="@/assets/images/0xcexG1C9BroKmojA.png" class="mt-15"></v-img>
+  <v-container class="d-flex justify-center" fluid>
+    <v-col cols="12" sm="4">
+      <h1 class="h1 d-flex justify-center">{{ user.username }}</h1>
+      <v-icon dark size="200" class="d-flex justify-center" name="usuario"
+        >mdi-account-circle</v-icon
+      >
+      <v-divider dark></v-divider>
+      <v-divider dark></v-divider>
+      <v-divider dark class="mb-5"></v-divider>
+      <v-form>
+        <v-container>
+          <v-text-field
+            v-model="newUser.first_name"
+            background-color="white"
+            label="Nome"
+            placeholder="Nome"
+            filled
+            rounded
+            dense
+            width="50%"
+          >
+          </v-text-field>
+          <v-text-field
+            v-model="newUser.last_name"
+            background-color="white"
+            label="Sobrenome"
+            placeholder="Sobrenome"
+            filled
+            rounded
+            dense
+            width="50%"
+          >
+          </v-text-field>
+          <v-text-field
+            v-model="newUser.email"
+            background-color="white"
+            label="E-mail"
+            placeholder="usuario@gmail.com"
+            filled
+            rounded
+            dense
+          >
+          </v-text-field>
+          <v-btn color="#133F86" dark width="100%" @click="updateInfo">
+            salvar alterações
+          </v-btn>
+          <v-btn
+            class="mt-10"
+            color="#133F86"
+            dark
+            width="100%"
+            @click="dialogUsername = true"
+          >
+            Trocar de usuário
+          </v-btn>
+          <v-btn
+            class="mt-3"
+            color="#133F86"
+            dark
+            width="100%"
+            @click="dialogPassword = true"
+          >
+            Redefirnir senha
+          </v-btn>
+          <v-btn
+            class="mt-3"
+            color="#133F86"
+            dark
+            width="100%"
+            @click="dialogDelUser = true"
+          >
+            Deletar conta
+          </v-btn>
+        </v-container>
+      </v-form>
     </v-col>
     <v-row justify="center">
       <v-dialog v-model="dialogUsername" persistent max-width="600px">
@@ -227,6 +219,12 @@
       </v-dialog>
     </v-row>
   </v-container>
+  <!-- <v-col cols="8" class="ml-10">
+      <v-row class="d-flex justify-center">
+        <h1 class="h1">Progresso Semanal</h1>
+      </v-row>
+      <v-img src="@/assets/images/0xcexG1C9BroKmojA.png" class="mt-15"></v-img>
+    </v-col> -->
 </template>
 
 <script>

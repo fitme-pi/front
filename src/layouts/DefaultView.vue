@@ -19,7 +19,7 @@
               <label for="usuario" class="cursor-pointer">Alimentação</label>
             </v-list-item>
             <v-divider vertical></v-divider> -->
-          <v-list-item link :to="{ path: '/home' }">
+          <v-list-item link :to="{ path: '/' }">
             <label for="usuario" class="cursor-pointer">Home</label>
           </v-list-item>
           <v-divider vertical></v-divider>
@@ -35,7 +35,7 @@
             >
             <label for="usuario">{{ user ? user.first_name : "Perfil" }}</label>
           </v-list-item>
-          <v-list-item @click="sair()">Sair</v-list-item>
+          <v-list-item @click="setLogout">Sair</v-list-item>
         </v-list-item-group>
       </v-app-bar>
 
@@ -119,9 +119,6 @@ export default {
   },
   methods: {
     ...mapMutations("auth", ["setLogout"]),
-    sair() {
-      this.setLogout();
-    },
   },
 };
 </script>

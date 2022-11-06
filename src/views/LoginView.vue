@@ -97,7 +97,7 @@ export default {
     async submitLogin() {
       try {
         await this.login(this.usuario);
-        this.$router.push({ path: "/home" });
+        this.$router.push({ path: "/" });
       } catch (e) {
         this.errorLogin = true;
         console.log(e);

@@ -12,32 +12,13 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    component: () => import("@/layouts/BlankView.vue"),
-    meta: {
-      auth: false,
-    },
-    children: [
-      {
-        path: "",
-        name: "LoginView",
-        component: LoginView,
-      },
-      {
-        path: "/cadastro",
-        name: "CadastroView",
-        component: CadastroView,
-      },
-    ],
-  },
-  {
-    path: "/",
     component: () => import("@/layouts/DefaultView.vue"),
     meta: {
       auth: true,
     },
     children: [
       {
-        path: "/home",
+        path: "",
         name: "HomeView",
         component: HomeView,
       },
@@ -45,6 +26,25 @@ const routes = [
         path: "/perfil",
         name: "PerfilView",
         component: PerfilView,
+      },
+    ],
+  },
+  {
+    path: "/",
+    component: () => import("@/layouts/BlankView.vue"),
+    meta: {
+      auth: false,
+    },
+    children: [
+      {
+        path: "/login",
+        name: "LoginView",
+        component: LoginView,
+      },
+      {
+        path: "/cadastro",
+        name: "CadastroView",
+        component: CadastroView,
       },
       {
         path: "/imc",
@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.auth)) {
     if (!store.state.auth.loggedIn) {
       next({
-        path: "/",
+        path: "/login",
       });
     } else {
       next();

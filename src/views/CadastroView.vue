@@ -102,7 +102,7 @@ export default {
     async submitForm() {
       try {
         await this.register(this.form);
-        this.$router.push({ path: "/home" });
+        this.$router.push({ path: "/" });
       } catch (e) {
         console.log(e);
       }

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="fundo">
       <router-view></router-view>
     </v-main>
   </v-app>
@@ -10,5 +10,4 @@
 export default {};
 </script>
 
-<style>
-</style>
+<style></style>

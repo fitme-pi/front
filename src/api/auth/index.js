@@ -1,6 +1,10 @@
 import axios from "axios";
 
 class AuthService {
+  async login(user) {
+    const { data } = await axios.post("auth/jwt/create/", user);
+    return data;
+  }
   async register(user) {
     const { data } = await axios.post("auth/users/", user);
     return data;
@@ -21,10 +25,6 @@ class AuthService {
   async deleteUserAccount(delUser) {
     console.log(delUser);
     await axios.delete("auth/users/me/", delUser);
-  }
-  async login(user) {
-    const { data } = await axios.post("auth/jwt/create/", user);
-    return data;
   }
 }
 
