@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-8" fluid>
+  <v-container fluid>
     <v-app-bar app color="#0C0B30" dark elevation="3">
       <v-list-item>
         <h1>Fitme</h1>
@@ -24,13 +24,14 @@
         <v-list-item @click="setLogout">Sair</v-list-item>
       </v-list-item-group>
     </v-app-bar>
-    <h1 class="h1 pa-8" style="color: white">Calculadora de IMC</h1>
-    <v-form id="formulario">
+    <v-form>
       <!-- <v-row> -->
-      <v-container class="pl-8">
+      <v-container>
+        <h1 class="h1 py-8 pl-5">Calculadora de IMC</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
+            v-model="peso"
             cols="12"
             sm="6"
             md="3"
@@ -44,6 +45,7 @@
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
+            v-model="altura"
             cols="12"
             sm="6"
             md="3"
@@ -52,16 +54,16 @@
             for="centimetros"
             type="number"
           ></v-text-field>
+          <div class="ma-3 mt-3">
+            <v-btn @click="calcularIMC">
+              <h3>Calcular</h3>
+            </v-btn>
+            <h2 class="h2 pl-2 pt-8" style="color: white">
+              Resultado: {{ imc }} {{ imcSignificado }}
+            </h2>
+          </div>
         </v-col>
-        <v-col cols="12" sm="6" md="3">
-          <v-text-field outlined dark label="Metros" for="metros" type="number">
-          </v-text-field>
-        </v-col>
-        <v-btn @click="calcular()" id="corzinha" style="color: gray">
-          <h3>Calcular</h3>
-        </v-btn>
-        <h2 class="h2 pl-2 pt-8" style="color: white">Resultado:</h2>
-        <h3 class="h3 pl-2" style="color: white"></h3>
+        <!-- <h3 class="h3 pl-2" style="color: white"></h3> -->
       </v-container>
       <!-- </v-row> -->
     </v-form>
@@ -74,7 +76,10 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      imc: "",
+      imc: null,
+      peso: null,
+      altura: null,
+      imcSignificado: null,
     };
   },
   computed: {
@@ -83,28 +88,23 @@ export default {
   methods: {
     ...mapMutations("auth", ["setLogout"]),
 
-    calcular() {
-      var formulario = document.getElementById("formulario");
-      var kilos = +formulario.kilos.value;
-      var metros = +formulario.metros.value;
-      var centimetros = +formulario.centimetros.value;
-      var altura = (metros * 100 + centimetros) / 100;
-      var imc = kilos / (altura * altura);
-      formulario.imc.value = imc.toFixed(2);
-      if (imc < 20) {
-        alert("Você esta abaixo do peso!");
-      } else if (imc > 20 && imc <= 25) {
-        alert("Peso Ideal");
-      } else if (imc > 25 && imc <= 30) {
-        alert("Sobrepeso");
-      } else if (imc > 30 && imc <= 35) {
-        alert("Obesidade Moderada");
-      } else if (imc > 35 && imc <= 40) {
-        alert("Obesidade Severa");
-      } else if (imc > 40 && imc <= 50) {
-        alert("Obesidade Morbida");
-      } else {
-        alert("Gordo");
+    calcularIMC() {
+      this.imc = Math.round(
+        Number(this.peso) / (Number(this.altura) / 100) ** 2
+      );
+
+      if (this.imc < 20) {
+        this.imcSignificado = "Você esta abaixo do peso!";
+      } else if (this.imc > 20 && this.imc <= 25) {
+        this.imcSignificado = "Peso Ideal";
+      } else if (this.imc > 25 && this.imc <= 30) {
+        this.imcSignificado = "Sobrepeso";
+      } else if (this.imc > 30 && this.imc <= 35) {
+        this.imcSignificado = "Obesidade Moderada";
+      } else if (this.imc > 35 && this.imc <= 40) {
+        this.imcSignificado = "Obesidade Severa";
+      } else if (this.imc > 40) {
+        this.imcSignificado = "Obesidade Morbida";
       }
     },
   },
