@@ -24,8 +24,12 @@
           </v-list-item>
           <v-divider vertical></v-divider>
           <v-list-item link :to="{ path: '/imc' }">
+            <label for="usuario" class="cursor-pointer text-center">IMC</label>
+          </v-list-item>
+          <v-divider vertical></v-divider>
+          <v-list-item link :to="{ path: '/basal' }">
             <label for="usuario" class="cursor-pointer text-center"
-              >Calcular IMC</label
+              >Taxa Basal</label
             >
           </v-list-item>
           <v-divider vertical></v-divider>

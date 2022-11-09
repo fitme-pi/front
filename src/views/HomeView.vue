@@ -1,31 +1,15 @@
 <template>
-  <v-container v-if="user ? user.is_staff : false" class="pa-8" fluid>
-    <h1 class="h1">Fitme</h1>
-    <v-form>
-      <v-text-field
-        dark
-        label="Nova tarefa"
-        v-model="novaTarefa"
-        @keydown.enter="adicionar"
-      >
-        <v-icon slot="append" @click="adicionar">mdi-send</v-icon>
-      </v-text-field>
-    </v-form>
-    <v-divider></v-divider>
-    <v-list v-for="tarefa of tarefas" :key="tarefa.titulo">
-      <v-list-item-group>
-        <v-list-item>
-          {{ tarefa.titulo }}
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-  </v-container>
+  <HomeStaff v-if="user ? user.is_staff : false" />
+  <HomeUser v-else />
 </template>
 
 <script>
 import { mapState } from "vuex";
+import HomeStaff from "@/components/HomeStaff.vue";
+import HomeUser from "@/components/HomeUser.vue";
 
 export default {
+  components: { HomeStaff, HomeUser },
   data() {
     return {
       novaTarefa: "",

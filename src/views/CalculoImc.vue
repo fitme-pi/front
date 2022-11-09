@@ -10,8 +10,12 @@
         </v-list-item>
         <v-divider vertical></v-divider>
         <v-list-item link :to="{ path: '/imc' }">
+          <label for="usuario" class="cursor-pointer text-center">IMC</label>
+        </v-list-item>
+        <v-divider vertical></v-divider>
+        <v-list-item link :to="{ path: '/basal' }">
           <label for="usuario" class="cursor-pointer text-center"
-            >Calcular IMC</label
+            >Taxa Basal</label
           >
         </v-list-item>
         <v-divider vertical></v-divider>
@@ -26,7 +30,7 @@
     </v-app-bar>
     <v-container>
       <v-form>
-        <h1 class="h1 py-8 pl-5">Calculadora de IMC</h1>
+        <h1 class="h1 text-center py-8 pl-5">Calculadora de IMC</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined

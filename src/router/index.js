@@ -51,6 +51,11 @@ const routes = [
         name: "CalculoImc",
         component: () => import("@/views/CalculoImc.vue"),
       },
+      {
+        path: "/basal",
+        name: "TaxaBasal",
+        component: () => import("@/views/TaxaBasal.vue"),
+      },
     ],
   },
 ];
