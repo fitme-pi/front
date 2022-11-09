@@ -39,10 +39,6 @@ h1 {
   background-color: lightcyan;
 }
 
-.login {
-  color: #4a3ca5;
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
