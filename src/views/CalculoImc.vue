@@ -64,12 +64,27 @@
             <h2 class="h2 pl-2 pt-8" style="color: white">{{ seuIMC }}</h2>
           </div>
         </v-col>
-        <!-- <h3 class="h3 pl-2" style="color: white"></h3> -->
-        <v-img
+        <v-simple-table dark>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">IMC</th>
+                <th class="text-left">Classificação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(classificacao, index) in classificacoes" :key="index">
+                <td>{{ classificacao.imc }}</td>
+                <td>{{ classificacao.classificacao }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        <!-- <v-img
           max-height="350"
           max-width="550"
           src="http://www.clinicaplena.com.br/fertile/uploads/1598363053_312.jpg"
-        ></v-img>
+        ></v-img> -->
       </v-form>
     </v-container>
   </v-container>
@@ -85,6 +100,32 @@ export default {
       peso: null,
       altura: null,
       imcSignificado: null,
+      classificacoes: [
+        {
+          imc: "Abaixo de 18,5",
+          classificacao: "Abaixo do peso",
+        },
+        {
+          imc: "Entre 18,6 e 24,9",
+          classificacao: "Peso ideal",
+        },
+        {
+          imc: "Entre 25,0 e 29,9",
+          classificacao: "Levemente acima do peso",
+        },
+        {
+          imc: "Entre 30,0 e 34,9",
+          classificacao: "Obesidade grau 1",
+        },
+        {
+          imc: "Entre 35,0 e 39,9",
+          classificacao: "Obesidade grau 2 (severa)",
+        },
+        {
+          imc: "Acima de 40",
+          classificacao: "Obesidade grau 3 (mórbida)",
+        },
+      ],
     };
   },
   computed: {
