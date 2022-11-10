@@ -29,10 +29,8 @@
       </v-list-item-group>
     </v-app-bar>
     <v-container>
-      <v-form>
-        <h1 class="h1 text-center py-8 pl-5">
-          Calculadora de Taxa de Metabolismo Basal
-        </h1>
+      <v-form class="d-flex align-center flex-column">
+        <h1 class="h1 py-8 pl-5">Calculadora de Taxa de Metabolismo Basal</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
@@ -102,7 +100,7 @@
         </v-col>
         <v-col cols="12" sm="6" md="3">
           <div class="ma-3 mt-3">
-            <v-btn @click="calcularTaxa">
+            <v-btn :disabled="!formCompleto" @click="calcularTaxa">
               <h3>Calcular</h3>
             </v-btn>
             <h2 class="h2 pl-2 pt-8" style="color: white">{{ suaTaxa }}</h2>
@@ -166,6 +164,11 @@ export default {
       return this.taxa
         ? `Sua taxa de metabolismo basal é de ${this.taxa} calorias`
         : "";
+    },
+    formCompleto() {
+      return this.peso !== null && this.altura !== null && this.idade !== null
+        ? true
+        : false;
     },
   },
   methods: {

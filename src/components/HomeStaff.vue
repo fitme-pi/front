@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-8" fluid>
-    <v-form>
+    <v-form class="d-flex align-center flex-column">
       <h1 class="h1 py-8 pl-5">Adicione o exercício</h1>
       <v-col cols="12" sm="6" md="3">
         <v-text-field
@@ -18,6 +18,7 @@
         <v-textarea
           outlined
           v-model="exercicio.descricao"
+          :rules="rules"
           cols="12"
           sm="6"
           md="3"
@@ -52,7 +53,7 @@
       </v-col>
       <v-col cols="12" sm="6" md="3">
         <div class="ma-3 mt-3">
-          <v-btn @click="publicarExercicio">
+          <v-btn :disabled="!formCompleto" @click="publicarExercicio">
             <h3>Publicar</h3>
           </v-btn>
         </div>
@@ -102,7 +103,18 @@ export default {
         nome: "Abdômen",
       },
     ],
+    rules: [(v) => (v ? v.length <= 255 : false || "No máximo 255 caracteres")],
   }),
+  computed: {
+    formCompleto() {
+      return typeof this.grupo !== "object" &&
+        this.exercicio.nome !== undefined &&
+        this.exercicio.descricao !== undefined &&
+        this.exercicio.video_explicativo !== undefined
+        ? true
+        : false;
+    },
+  },
   methods: {
     async publicarExercicio() {
       try {

@@ -17,7 +17,7 @@
         </v-list-item-group>
       </v-app-bar>
     </v-app> -->
-  <v-container class="d-flex justify-center" fluid>
+  <v-container class="d-flex align-center flex-column" fluid>
     <v-col cols="12" sm="4">
       <h1 class="h1 d-flex justify-center">{{ user.username }}</h1>
       <v-icon dark size="200" class="d-flex justify-center" name="usuario"

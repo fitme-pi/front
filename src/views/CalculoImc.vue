@@ -29,8 +29,8 @@
       </v-list-item-group>
     </v-app-bar>
     <v-container>
-      <v-form>
-        <h1 class="h1 text-center py-8 pl-5">Calculadora de IMC</h1>
+      <v-form class="d-flex align-center flex-column">
+        <h1 class="h1 py-8 pl-5">Calculadora de IMC</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
@@ -58,28 +58,22 @@
         </v-col>
         <v-col cols="12" sm="6" md="3">
           <div class="ma-3 mt-3">
-            <v-btn @click="calcularIMC">
+            <v-btn :disabled="!formCompleto" @click="calcularIMC">
               <h3>Calcular</h3>
             </v-btn>
             <h2 class="h2 pl-2 pt-8" style="color: white">{{ seuIMC }}</h2>
           </div>
         </v-col>
         <!-- <h3 class="h3 pl-2" style="color: white"></h3> -->
+        <v-img
+          max-height="350"
+          max-width="550"
+          src="http://www.clinicaplena.com.br/fertile/uploads/1598363053_312.jpg"
+        ></v-img>
       </v-form>
-      <v-img
-        max-height="350"
-        max-width="550"
-        src="http://www.clinicaplena.com.br/fertile/uploads/1598363053_312.jpg"
-      ></v-img>
     </v-container>
   </v-container>
 </template>
-
-<!-- <v-img
-  max-height="350"
-  max-width="550"
-  src="http://www.clinicaplena.com.br/fertile/uploads/1598363053_312.jpg"
-></v-img> -->
 
 <script>
 import { mapState, mapMutations } from "vuex";
@@ -100,6 +94,11 @@ export default {
       return this.imc
         ? `Seu imc é de ${this.imc}, significa que você está ${this.imcSignificado}`
         : "";
+    },
+    formCompleto() {
+      return this.peso !== null && this.altura !== null && this.idade !== null
+        ? true
+        : false;
     },
   },
   methods: {
