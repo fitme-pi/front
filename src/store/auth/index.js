@@ -26,7 +26,7 @@ export const auth = {
       state.user = null;
       state.token = null;
       state.loggedIn = false;
-      location.reload();
+      // location.reload();
     },
   },
   actions: {

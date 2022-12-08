@@ -48,6 +48,13 @@
         </v-row>
       </v-container>
     </v-col>
+    <v-snackbar
+      color="red darken-2"
+      v-model="errorLogin"
+      multline
+      timeout="2000"
+      >{{ errorMessage }}</v-snackbar
+    >
   </v-container>
 </template>
 
@@ -62,6 +69,8 @@ export default {
     return {
       usuario: {},
       show: false,
+      errorMessage: "",
+      errorLogin: false,
     };
   },
   methods: {
@@ -73,8 +82,15 @@ export default {
         await this.login(this.usuario);
         this.$router.push({ path: "/" });
       } catch (e) {
+        let firstDataError = JSON.stringify(
+          Object.keys(e.response.data)[0]
+        ).replace(/[\]["]/g, "");
+        this.errorMessage = `${firstDataError.toUpperCase()}, ${JSON.stringify(
+          e.response.data[firstDataError]
+        )
+          .replace(/[\]["]/g, "")
+          .toLowerCase()}`;
         this.errorLogin = true;
-        console.log(e);
       }
     },
     criarConta() {

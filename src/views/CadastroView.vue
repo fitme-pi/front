@@ -78,6 +78,13 @@
         </v-container>
       </v-col>
     </v-container>
+    <v-snackbar
+      color="red darken-2"
+      v-model="errorRegister"
+      multline
+      timeout="2000"
+      >{{ errorMessage }}</v-snackbar
+    >
   </v-img>
 </template>
 
@@ -92,6 +99,8 @@ export default {
     return {
       show: false,
       form: {},
+      errorMessage: "",
+      errorRegister: false,
     };
   },
   computed: {},
@@ -104,7 +113,15 @@ export default {
         await this.register(this.form);
         this.$router.push({ path: "/" });
       } catch (e) {
-        console.log(e);
+        let firstDataError = JSON.stringify(
+          Object.keys(e.response.data)[0]
+        ).replace(/[\]["]/g, "");
+        this.errorMessage = `${firstDataError.toUpperCase()}, ${JSON.stringify(
+          e.response.data[firstDataError]
+        )
+          .replace(/[\]["]/g, "")
+          .toLowerCase()}`;
+        this.errorRegister = true;
       }
     },
     voltarLogin() {
