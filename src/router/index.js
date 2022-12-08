@@ -8,6 +8,7 @@ import HomeView from "@/views/HomeView.vue";
 import PerfilView from "@/views/PerfilView.vue";
 import FichasTreino from "@/views/FichasTreino.vue";
 import TreinoCadastro from "@/views/TreinoCadastro.vue";
+import TreinoDetail from "@/views/TreinoDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
         path: "/treinos",
         name: "FichasTreino",
         component: FichasTreino,
+      },
+      {
+        path: "/treino/:id",
+        name: "TreinoDetail",
+        component: TreinoDetail,
       },
       {
         path: "/treinocadastro",

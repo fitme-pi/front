@@ -37,22 +37,6 @@
                 height="50px"
                 >Login</v-btn
               >
-              <v-row class="d-flex justify-center mb-6 mt-6 text--disabled">
-                esqueceu sua senha?
-                <a href="#" class="text-decoration-none pl-1"> Recupere aqui</a>
-              </v-row>
-              <v-row class="d-flex mt-4">
-                <v-divider width="auto" class="mt-3 ml-8"></v-divider>
-                <section class="ml-2 mr-2 text--disabled" font-family="arial">
-                  ou continue com
-                </section>
-                <v-divider width="auto" class="mt-3 mr-8"></v-divider>
-              </v-row>
-              <v-row class="d-flex justify-space-between ml-10 mr-10 mt-5 mb-2">
-                <v-icon x-large color="red"> mdi-gmail </v-icon>
-                <v-icon x-large color="primary"> mdi-facebook </v-icon>
-                <v-icon x-large color="indigo"> mdi-linkedin </v-icon>
-              </v-row>
               <v-btn
                 class="text--disabled mt-5 mb-2 cursor-pointer"
                 font-family="arial"

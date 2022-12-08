@@ -1,70 +1,54 @@
 <template>
   <v-container fluid>
-    <v-app-bar app color="#0C0B30" dark elevation="3">
-      <v-list-item>
-        <h1>Fitme</h1>
-      </v-list-item>
-      <v-list-item-group v-if="loggedIn" class="menu d-flex">
-        <v-list-item link :to="{ path: '/' }">
-          <label for="usuario" class="cursor-pointer">Home</label>
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/imc' }">
-          <label for="usuario" class="cursor-pointer text-center">IMC</label>
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/basal' }">
-          <label for="usuario" class="cursor-pointer text-center"
-            >Taxa Basal</label
-          >
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/perfil' }">
-          <v-icon size="35" class="mr-4" name="usuario"
-            >mdi-account-circle</v-icon
-          >
-          <label for="usuario">{{ user ? user.first_name : "Perfil" }}</label>
-        </v-list-item>
-        <v-list-item @click="setLogout">Sair</v-list-item>
-      </v-list-item-group>
-    </v-app-bar>
     <v-container>
       <v-form class="d-flex align-center flex-column">
-        <h1 class="h1 py-8 pl-5">Calculadora de Taxa de Metabolismo Basal</h1>
+        <h1 class="h1 py-8 pl-5">Monte seu treino aqui</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
-            v-model="peso"
+            v-model="treino.titulo"
             cols="12"
             sm="6"
             md="3"
             dark
-            label="Peso(kg)"
-            type="number"
+            label="Titulo"
+            type="text"
           >
           </v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
-            v-model="altura"
+            v-model="treino.num_reps"
             cols="12"
             sm="6"
             md="3"
             dark
-            label="Altura(centímetros)"
+            label="Número de repetições"
             type="number"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
-            v-model="idade"
+            v-model="treino.num_series"
             cols="12"
             sm="6"
             md="3"
             dark
-            label="Idade"
+            label="Número de séries"
+            type="number"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="6" md="3">
+          <v-text-field
+            outlined
+            v-model="treino.tempo_descanso"
+            cols="12"
+            sm="6"
+            md="3"
+            dark
+            label="Tempo e descanso"
             type="number"
           ></v-text-field>
         </v-col>
@@ -74,36 +58,19 @@
             cols="12"
             sm="6"
             md="3"
-            v-model="sexo"
-            :items="sexos"
-            item-text="titulo"
-            item-value="valor"
-            return-object
-            label="Seu sexo"
-            outlined
-          ></v-select>
-        </v-col>
-        <v-col class="d-flex" cols="12" sm="6" md="3">
-          <v-select
-            dark
-            cols="12"
-            sm="6"
-            md="3"
-            v-model="exercicio"
+            v-model="treino.exercicio"
             :items="exercicios"
-            item-text="titulo"
-            item-value="valor"
-            return-object
-            label="Nível de atividade física"
+            item-text="nome"
+            item-value="id"
+            label="Exercícios"
             outlined
           ></v-select>
         </v-col>
         <v-col cols="12" sm="6" md="3">
           <div class="ma-3 mt-3">
-            <v-btn :disabled="!formCompleto" @click="calcularTaxa">
-              <h3>Calcular</h3>
+            <v-btn @click="adicionarTreino">
+              <h3>Concluir</h3>
             </v-btn>
-            <h2 class="h2 pl-2 pt-8" style="color: white">{{ suaTaxa }}</h2>
           </div>
         </v-col>
       </v-form>
@@ -112,17 +79,35 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
+  created() {
+    this.pegarExercicios();
+  },
   data() {
-    return {};
+    return {
+      treino: {},
+      exercicios: [],
+    };
   },
   computed: {
-    ...mapState("auth", ["loggedIn", "user"]),
+    ...mapState("auth", ["user"]),
   },
   methods: {
-    ...mapMutations("auth", ["setLogout"]),
+    async pegarExercicios() {
+      const { data } = await axios.get("api/exercicios/");
+      this.exercicios = data;
+    },
+    async adicionarTreino() {
+      try {
+        this.treino.usuario = this.user.id;
+        await axios.post("api/treinos/", this.treino);
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 };
 </script>

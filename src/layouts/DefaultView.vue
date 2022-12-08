@@ -11,10 +11,6 @@
             <label for="usuario" class="cursor-pointer"> Treino </label>
           </v-list-item>
           <v-divider vertical></v-divider>
-          <v-list-item link :to="{ path: '/exercicio' }">
-            <label for="usuario" class="cursor-pointer">Exercício</label>
-          </v-list-item>
-          <v-divider vertical></v-divider>
           <v-list-item link :to="{ path: '/' }">
             <label for="usuario" class="cursor-pointer">Home</label>
           </v-list-item>
