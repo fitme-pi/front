@@ -6,6 +6,8 @@ import CadastroView from "@/views/CadastroView.vue";
 import LoginView from "@/views/LoginView.vue";
 import HomeView from "@/views/HomeView.vue";
 import PerfilView from "@/views/PerfilView.vue";
+import FichasTreino from "@/views/FichasTreino.vue";
+import TreinoCadastro from "@/views/TreinoCadastro.vue";
 
 Vue.use(VueRouter);
 
@@ -26,6 +28,16 @@ const routes = [
         path: "/perfil",
         name: "PerfilView",
         component: PerfilView,
+      },
+      {
+        path: "/treinos",
+        name: "FichasTreino",
+        component: FichasTreino,
+      },
+      {
+        path: "/treinocadastro",
+        name: "TreinoCadastro",
+        component: TreinoCadastro,
       },
     ],
   },
