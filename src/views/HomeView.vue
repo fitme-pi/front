@@ -24,7 +24,6 @@ export default {
   async created() {
     const { data } = await axios.get("api/evolucoes/");
     this.dados = data;
-    console.log(this.dados);
   },
   data() {
     return {
