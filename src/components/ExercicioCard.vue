@@ -36,8 +36,10 @@
 
           <v-divider class="mx-4"></v-divider>
 
-          <v-card-actions>
-            <v-btn color="green" text @click="reserve"> Favoritar </v-btn>
+          <v-card-actions v-if="user && user.is_staff">
+            <v-btn color="warning" text @click="deletarExercicio(exercicio)">
+              Excluir
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -47,6 +49,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   created() {
@@ -56,7 +59,9 @@ export default {
     exercicios: [],
     loading: false,
   }),
-
+  computed: {
+    ...mapState("auth", ["user"]),
+  },
   methods: {
     async pegarExercicios() {
       const { data } = await axios.get("api/exercicios/");
@@ -65,6 +70,14 @@ export default {
 
     tratarURL(url) {
       return `${url.replace(".com/", ".com/embed/").replace("watch?v=", "")}`;
+    },
+
+    async deletarExercicio({ id }) {
+      try {
+        await axios.delete(`api/exercicios/${id}/`);
+      } catch (e) {
+        console.log(e);
+      }
     },
 
     reserve() {

@@ -1,6 +1,6 @@
 <template>
-  <v-container class="pa-8" fluid>
-    <v-dialog v-model="$parent.modal" width="600px">
+  <v-row justify="center">
+    <v-dialog class="a" v-model="$parent.modal" width="600px">
       <v-form class="d-flex align-center flex-column">
         <h1 class="h1 py-8 pl-5">Adicione o exercício</h1>
         <v-col cols="12">
@@ -66,7 +66,7 @@
         </v-row>
       </v-form>
     </v-dialog>
-  </v-container>
+  </v-row>
 </template>
 
 <script>
@@ -110,7 +110,7 @@ export default {
         nome: "Abdômen",
       },
     ],
-    rules: [(v) => (v ? v.length <= 255 : false || "No máximo 255 caracteres")],
+    rules: [(v) => (v ? v.length <= 500 : false || "No máximo 500 caracteres")],
   }),
   computed: {
     formCompleto() {
@@ -135,5 +135,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
