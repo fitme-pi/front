@@ -10,30 +10,6 @@
         >
           <v-card-title>{{ treino.titulo }}</v-card-title>
 
-          <!-- <v-card-text>
-            <div class="my-4">
-              <h2>Número de Séries</h2>
-              <h3>{{ treino.num_series }}</h3>
-            </div>
-          </v-card-text>
-          <v-card-text>
-            <div class="my-4">
-              <h2>Número de Repetições</h2>
-              <h3>{{ treino.num_reps }}</h3>
-            </div>
-          </v-card-text>
-
-          <v-card-title
-            >Tempo de descanço:
-            {{ treino.tempo_descanso }} segundos</v-card-title
-          >
-
-          <v-card-title
-            >Exercício selecionado: <br />{{
-              treino.exercicio.nome
-            }}</v-card-title
-          > -->
-
           <v-divider class="mx-4"></v-divider>
           <v-card-actions>
             <v-btn color="red" text @click="deletarTreino(treino)"
@@ -63,7 +39,7 @@ export default {
     },
     async deletarTreino({ id }) {
       await axios.delete(`api/treinos/${id}/`);
-      this.pegarTreinos();
+      this.$router.push({ path: "/treinos" });
     },
   },
 };
