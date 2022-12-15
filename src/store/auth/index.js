@@ -26,7 +26,7 @@ export const auth = {
       state.user = null;
       state.token = null;
       state.loggedIn = false;
-      // location.reload();
+      location.reload();
     },
   },
   actions: {
@@ -38,7 +38,6 @@ export const auth = {
         dispatch("getUser");
         return Promise.resolve(userToken);
       } catch (e) {
-        commit("setLogout");
         return Promise.reject(e);
       }
     },

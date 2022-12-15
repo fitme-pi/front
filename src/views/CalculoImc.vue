@@ -1,40 +1,12 @@
 <template>
   <v-container fluid>
-    <v-app-bar app color="#0C0B30" dark elevation="3">
-      <v-list-item>
-        <h1>Fitme</h1>
-      </v-list-item>
-      <v-list-item-group v-if="loggedIn" class="menu d-flex">
-        <v-list-item link :to="{ path: '/' }">
-          <label for="usuario" class="cursor-pointer">Home</label>
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/imc' }">
-          <label for="usuario" class="cursor-pointer text-center">IMC</label>
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/basal' }">
-          <label for="usuario" class="cursor-pointer text-center"
-            >Taxa Basal</label
-          >
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/perfil' }">
-          <v-icon size="35" class="mr-4" name="usuario"
-            >mdi-account-circle</v-icon
-          >
-          <label for="usuario">{{ user ? user.first_name : "Perfil" }}</label>
-        </v-list-item>
-        <v-list-item @click="setLogout">Sair</v-list-item>
-      </v-list-item-group>
-    </v-app-bar>
     <v-container>
       <v-form class="d-flex align-center flex-column">
         <h1 class="h1 py-8 pl-5">Calculadora de IMC</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
-            v-model="peso"
+            v-model="evolucao.massa"
             cols="12"
             sm="6"
             md="3"
@@ -47,7 +19,7 @@
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
-            v-model="altura"
+            v-model="evolucao.altura"
             cols="12"
             sm="6"
             md="3"
@@ -61,7 +33,11 @@
             <v-btn :disabled="!formCompleto" @click="calcularIMC">
               <h3>Calcular</h3>
             </v-btn>
-            <h2 class="h2 pl-2 pt-8" style="color: white">{{ seuIMC }}</h2>
+            <h2 v-if="evolucao.imc" class="h2 pl-2 pt-8" style="color: white">
+              Seu imc é de
+              {{ this.evolucao.imc }}, significa que você está
+              {{ this.imcSignificado }}
+            </h2>
           </div>
         </v-col>
         <v-simple-table dark>
@@ -80,25 +56,36 @@
             </tbody>
           </template>
         </v-simple-table>
-        <!-- <v-img
-          max-height="350"
-          max-width="550"
-          src="http://www.clinicaplena.com.br/fertile/uploads/1598363053_312.jpg"
-        ></v-img> -->
       </v-form>
     </v-container>
+    <v-snackbar
+      color="red darken-2"
+      v-model="errorPost"
+      multline
+      :timeout="2000"
+      >{{ errorMessage }}</v-snackbar
+    >
+    <v-snackbar
+      color="blue darken-2"
+      v-model="successPost"
+      multline
+      :timeout="2000"
+      >Informação salva com sucesso!</v-snackbar
+    >
   </v-container>
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from "vuex";
 
 export default {
   data() {
     return {
-      imc: null,
-      peso: null,
-      altura: null,
+      evolucao: {},
+      errorMessage: "",
+      errorPost: false,
+      successPost: false,
       imcSignificado: null,
       classificacoes: [
         {
@@ -131,13 +118,10 @@ export default {
   computed: {
     ...mapState("auth", ["loggedIn", "user"]),
 
-    seuIMC() {
-      return this.imc
-        ? `Seu imc é de ${this.imc}, significa que você está ${this.imcSignificado}`
-        : "";
-    },
     formCompleto() {
-      return this.peso !== null && this.altura !== null && this.idade !== null
+      return this.evolucao.peso !== null &&
+        this.evolucao.altura !== null &&
+        this.evolucao.idade !== null
         ? true
         : false;
     },
@@ -145,24 +129,43 @@ export default {
   methods: {
     ...mapMutations("auth", ["setLogout"]),
 
+    async salvarEvolucao() {
+      try {
+        await axios.post("api/evolucoes/", this.evolucao);
+        this.successPost = true;
+      } catch (e) {
+        let firstDataError = JSON.stringify(
+          Object.keys(e.response.data)[0]
+        ).replace(/[\]["]/g, "");
+        this.errorMessage = `${firstDataError.toUpperCase()}, ${JSON.stringify(
+          e.response.data[firstDataError]
+        )
+          .replace(/[\]["]/g, "")
+          .toLowerCase()}`;
+        this.errorPost = true;
+
+        console.log(e);
+      }
+    },
     calcularIMC() {
-      this.imc = Math.round(
-        Number(this.peso) / (Number(this.altura) / 100) ** 2
+      this.evolucao.imc = Math.round(
+        Number(this.evolucao.massa) / (Number(this.evolucao.altura) / 100) ** 2
       );
 
-      if (this.imc < 20) {
+      if (this.evolucao.imc < 20) {
         this.imcSignificado = "abaixo do peso!";
-      } else if (this.imc > 20 && this.imc <= 25) {
+      } else if (this.evolucao.imc > 20 && this.evolucao.imc <= 25) {
         this.imcSignificado = "no peso ideal";
-      } else if (this.imc > 25 && this.imc <= 30) {
+      } else if (this.evolucao.imc > 25 && this.evolucao.imc <= 30) {
         this.imcSignificado = "com sobrepeso";
-      } else if (this.imc > 30 && this.imc <= 35) {
+      } else if (this.evolucao.imc > 30 && this.evolucao.imc <= 35) {
         this.imcSignificado = "com obesidade moderada";
-      } else if (this.imc > 35 && this.imc <= 40) {
+      } else if (this.evolucao.imc > 35 && this.evolucao.imc <= 40) {
         this.imcSignificado = "com obesidade severa";
-      } else if (this.imc > 40) {
+      } else if (this.evolucao.imc > 40) {
         this.imcSignificado = "com obesidade morbida";
       }
+      this.salvarEvolucao();
     },
   },
 };

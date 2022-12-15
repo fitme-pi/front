@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-btn @click="$router.push('/treinocadastro')">
+    <v-btn class="ma-3" @click="$router.push('/treinocadastro')">
       Crie seu Próprio Treino
     </v-btn>
     <TreinoCard />

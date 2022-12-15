@@ -1,33 +1,5 @@
 <template>
   <v-container fluid>
-    <v-app-bar app color="#0C0B30" dark elevation="3">
-      <v-list-item>
-        <h1>Fitme</h1>
-      </v-list-item>
-      <v-list-item-group v-if="loggedIn" class="menu d-flex">
-        <v-list-item link :to="{ path: '/' }">
-          <label for="usuario" class="cursor-pointer">Home</label>
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/imc' }">
-          <label for="usuario" class="cursor-pointer text-center">IMC</label>
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/basal' }">
-          <label for="usuario" class="cursor-pointer text-center"
-            >Taxa Basal</label
-          >
-        </v-list-item>
-        <v-divider vertical></v-divider>
-        <v-list-item link :to="{ path: '/perfil' }">
-          <v-icon size="35" class="mr-4" name="usuario"
-            >mdi-account-circle</v-icon
-          >
-          <label for="usuario">{{ user ? user.first_name : "Perfil" }}</label>
-        </v-list-item>
-        <v-list-item @click="setLogout">Sair</v-list-item>
-      </v-list-item-group>
-    </v-app-bar>
     <v-container>
       <v-form class="d-flex align-center flex-column">
         <h1 class="h1 py-8 pl-5">Calculadora de Taxa de Metabolismo Basal</h1>

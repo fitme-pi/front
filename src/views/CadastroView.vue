@@ -5,12 +5,12 @@
     max-width="100vw"
     src="@/assets/images/exercicio-fisico-metabolismo.jpg"
   >
-    <v-container class="d-flex justify-start" fill-height fluid text-center>
+    <v-container class="d-flex justify-center text-center" fill-height fluid>
       <v-col md="4">
         <v-container class="white rounded-lg">
-          <v-row>
-            <v-col class="text-center mx-auto pb-4" cols="1" sm="4">
-              <h1 class="h1 login">Cadastro</h1>
+          <v-row justify="center">
+            <v-col class="pb-7" cols="12" sm="4">
+              <h1 class="h1 deep-purple--text darken-3">Cadastro</h1>
             </v-col>
           </v-row>
           <v-row></v-row>

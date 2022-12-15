@@ -218,13 +218,14 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <v-snackbar
+      color="red darken-2"
+      v-model="errorUpdate"
+      multline
+      :timeout="2000"
+      >{{ errorMessage }}</v-snackbar
+    >
   </v-container>
-  <!-- <v-col cols="8" class="ml-10">
-      <v-row class="d-flex justify-center">
-        <h1 class="h1">Progresso Semanal</h1>
-      </v-row>
-      <v-img src="@/assets/images/0xcexG1C9BroKmojA.png" class="mt-15"></v-img>
-    </v-col> -->
 </template>
 
 <script>
@@ -240,6 +241,8 @@ export default {
   data() {
     return {
       show: false,
+      errorUpdate: false,
+      errorMessage: false,
       dialogUsername: false,
       dialogPassword: false,
       dialogDelUser: false,
@@ -258,6 +261,17 @@ export default {
       "deleteUser",
     ]),
 
+    errorInfo(e) {
+      let firstDataError = JSON.stringify(
+        Object.keys(e.response.data)[0]
+      ).replace(/[\]["]/g, "");
+      this.errorMessage = `${firstDataError.toUpperCase()}, ${JSON.stringify(
+        e.response.data[firstDataError]
+      )
+        .replace(/[\]["]/g, "")
+        .toLowerCase()}`;
+      this.errorUpdate = true;
+    },
     compareInfo() {
       return (
         this.newUser.first_name != this.user.first_name ||
@@ -270,6 +284,8 @@ export default {
         try {
           await this.updateUser(this.newUser);
         } catch (e) {
+          this.errorInfo(e);
+          this.newUser = { ...this.user };
           console.log(e);
         }
       }
@@ -279,6 +295,8 @@ export default {
         await this.updateUserUsername(this.newUserUsername);
         this.dialogUsername = false;
       } catch (e) {
+        this.errorInfo(e);
+        this.newUser = { ...this.user };
         console.log(e);
       }
     },
@@ -287,6 +305,7 @@ export default {
         await this.updateUserPassword(this.newPassword);
         this.dialogPassword = false;
       } catch (e) {
+        this.errorInfo(e);
         console.log(e);
       }
     },
@@ -295,6 +314,7 @@ export default {
         await this.deleteUser(this.delUser);
         this.dialogPassword = false;
       } catch (e) {
+        this.errorInfo(e);
         console.log(e);
       }
     },
@@ -302,6 +322,7 @@ export default {
       try {
         await this.setLogout();
       } catch (e) {
+        this.errorInfo(e);
         console.log(e);
       }
     },

@@ -9,6 +9,7 @@ import PerfilView from "@/views/PerfilView.vue";
 import FichasTreino from "@/views/FichasTreino.vue";
 import TreinoCadastro from "@/views/TreinoCadastro.vue";
 import TreinoDetail from "@/views/TreinoDetail.vue";
+import ExerciciosView from "@/views/ExerciciosView.vue";
 
 Vue.use(VueRouter);
 
@@ -45,6 +46,21 @@ const routes = [
         name: "TreinoCadastro",
         component: TreinoCadastro,
       },
+      {
+        path: "/exercicios",
+        name: "Exercicios",
+        component: ExerciciosView,
+      },
+      {
+        path: "/imc",
+        name: "CalculoImc",
+        component: () => import("@/views/CalculoImc.vue"),
+      },
+      {
+        path: "/basal",
+        name: "TaxaBasal",
+        component: () => import("@/views/TaxaBasal.vue"),
+      },
     ],
   },
   {
@@ -63,16 +79,6 @@ const routes = [
         path: "/cadastro",
         name: "CadastroView",
         component: CadastroView,
-      },
-      {
-        path: "/imc",
-        name: "CalculoImc",
-        component: () => import("@/views/CalculoImc.vue"),
-      },
-      {
-        path: "/basal",
-        name: "TaxaBasal",
-        component: () => import("@/views/TaxaBasal.vue"),
       },
     ],
   },

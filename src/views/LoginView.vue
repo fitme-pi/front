@@ -1,5 +1,10 @@
 <template>
-  <v-container class="image d-flex justify-start" fill-height fluid text-center>
+  <v-container
+    class="image d-flex justify-center"
+    fill-height
+    fluid
+    text-center
+  >
     <v-col md="4">
       <v-container class="white rounded-lg">
         <v-row class="d-flex justify-center">
@@ -52,7 +57,7 @@
       color="red darken-2"
       v-model="errorLogin"
       multline
-      timeout="2000"
+      :timeout="2000"
       >{{ errorMessage }}</v-snackbar
     >
   </v-container>
