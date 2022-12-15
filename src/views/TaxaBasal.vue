@@ -84,12 +84,14 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from "vuex";
 
 export default {
   data() {
     return {
       taxa: null,
+      evolucao: {},
       peso: null,
       altura: null,
       idade: null,
@@ -146,7 +148,7 @@ export default {
   methods: {
     ...mapMutations("auth", ["setLogout"]),
 
-    calcularTaxa() {
+    async calcularTaxa() {
       this.taxa = Math.round(
         (10 * Number(this.peso) +
           6.25 * Number(this.altura) -
@@ -154,6 +156,11 @@ export default {
           this.sexo.valor) *
           this.exercicio.valor
       );
+
+      this.evolucao.massa = this.peso;
+      this.evolucao.altura = this.altura;
+      this.evolucao.taxa_metabolica_basal = this.taxa;
+      await axios.post("api/evolucoes/", this.evolucao);
     },
   },
 };
