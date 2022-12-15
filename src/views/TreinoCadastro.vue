@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-container>
       <v-form class="d-flex align-center flex-column">
-        <h1 class="h1 py-8 pl-5">Monte seu treino aqui</h1>
+        <h1 class="h1 py-8 pl-5">Cadastre seu treino aqui</h1>
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             outlined
