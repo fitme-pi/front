@@ -117,6 +117,7 @@ export default {
       try {
         this.treino.exercicios = this.exerciciosTreino;
         await axios.post("api/treinos/", this.treino);
+        this.$router.push({ path: "/treinos" });
       } catch (e) {
         console.log(e);
       }
