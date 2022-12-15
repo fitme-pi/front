@@ -124,7 +124,11 @@ export default {
   },
   methods: {
     salvarAlteraçoes() {
-      this.exercicio.grupo_muscular = this.grupo;
+      if (this.grupo.id) {
+        this.exercicio.grupo_muscular = this.grupo.id;
+      } else {
+        this.exercicio.grupo_muscular = this.grupo;
+      }
       this.$emit("salvar", this.exercicio);
       this.$parent.editar = false;
     },
